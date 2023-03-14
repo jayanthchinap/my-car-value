@@ -1,35 +1,18 @@
-import {
-  AfterInsert,
-  AfterRemove,
-  AfterUpdate,
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import * as mongoose from 'mongoose';
+import { Schema, Document } from 'mongoose';
 
-@Entity()
-export class User {
-  @PrimaryGeneratedColumn()
+export const UserSchema = new mongoose.Schema({
+  id: {
+    type: mongoose.Types.ObjectId,
+    default: mongoose.Types.ObjectId,
+    required: true,
+  },
+  email: { type: String, required: true },
+  password: { type: String, required: true },
+});
+
+export interface User extends mongoose.Document {
   id: number;
-
-  @Column()
   email: string;
-
-  @Column()
   password: string;
-
-  @AfterInsert()
-  logInsert() {
-    console.log('User Inserted with id', this.id);
-  }
-
-  @AfterUpdate()
-  logUpdate() {
-    console.log('Log Updated with id', this.id);
-  }
-
-  @AfterRemove()
-  logRemove() {
-    console.log('Log Removed with id', this.id);
-  }
 }

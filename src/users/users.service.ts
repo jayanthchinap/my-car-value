@@ -1,44 +1,44 @@
+import * as mongoose from 'mongoose';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { User } from './user.entity';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectRepository(User) private repo: Repository<User>) {}
+  constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
-  create(email: string, password: string) {
-    const user = this.repo.create({ email, password });
-
-    return this.repo.save(user);
+  async create(email: string, password: string) {
+    const createdUser = new this.userModel({
+      email,
+      password,
+    });
+    const value = await createdUser.save();
+    return value;
   }
 
-  findOne(id: number) {
-    if (!id) {
-      return null;
-    }
-    return this.repo.findOneBy({ id });
+  async findOne(id: string) {
+    const objectId = new mongoose.Types.ObjectId(id);
+    return this.userModel.findById(objectId);
   }
-
   find(email: string) {
-    return this.repo.find({ where: { email } });
+    return this.userModel.find({ email }).exec();
   }
 
-  async update(id: number, attrs: Partial<User>) {
+  async update(id: string, attrs: Partial<User>) {
     const user = await this.findOne(id);
     if (!user) {
-      throw new NotFoundException('user not found');
+      throw new NotFoundException('User not found');
     }
     Object.assign(user, attrs);
-    return this.repo.save(user);
+    return user.save();
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const user = await this.findOne(id);
     if (!user) {
-      throw new NotFoundException('user not found');
+      throw new NotFoundException('User not found');
     }
-
-    return this.repo.remove(user);
+    return user.remove();
   }
 }
