@@ -59,6 +59,15 @@ export class UsersController {
     return user;
   }
 
+  @ApiOperation({ summary: 'Get all users' })
+  @ApiBearerAuth()
+  @Get('/')
+  @UseGuards(JwtAuthGuard)
+  async findAll(): Promise<User[]> {
+    const users = await this.usersService.findAll();
+    return users;
+  }
+
   @ApiOperation({ summary: 'Delete user by id' })
   @ApiBearerAuth()
   @Delete('/:id')
