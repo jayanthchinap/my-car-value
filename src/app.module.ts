@@ -8,7 +8,7 @@ import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     MongooseModule.forRoot(
-      'mongodb+srv://jayanthbrahmanapelly:7842286797@cluster0.1swlcjv.mongodb.net/nestjsdemo',
+      'mongodb+srv://jayanthbrahmanapelly:your_password_here@cluster0.1swlcjv.mongodb.net/nestjsdemo',
     ),
     UsersModule,
   ],
