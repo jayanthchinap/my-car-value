@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import SignupForm from '../views/SignupForm.vue';
 import HomePage from '../views/HomePage.vue';
+import CommunicationModule from '../views/CommunicationModule.vue';
 
 const routes = [
   {
@@ -22,6 +23,11 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/LoginPage.vue'),
+  },
+  {
+    path: '/communication',
+    name: 'communication',
+    component: CommunicationModule,
   },
 ];
 

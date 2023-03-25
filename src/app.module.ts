@@ -4,16 +4,17 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
+import { TwilioService } from './twilio/twilio.service';
 
 @Module({
   imports: [
     MongooseModule.forRoot(
-      'mongodb+srv://jayanthbrahmanapelly:your_password_here@cluster0.1swlcjv.mongodb.net/nestjsdemo',
+      'mongodb+srv://jayanthchinap:9908114134@cluster0.pfxt7j2.mongodb.net/nestt-users',
     ),
     UsersModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, TwilioService],
 })
 export class AppModule {
   static configureSwagger(app) {
